@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Class-XA</title>
+    <style>
+    .class_heading{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bolder;
+        align-content: center;
+        font-size: 3vw;
+        color:rgb(76, 164, 223);
+        margin-top: 30px;
+    }
+    .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 225px;
+        right: 33px;
+        width: 280px;
+        font-weight: bold;
+    }
+    .open-button1 {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 125px;
+        right: 33px;
+        width: 280px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+
+/* The popup form - hidden by default */
+    .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+    }
+    .form-popup1 {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+    }
+
+/* Add styles to the form container */
+    .form-container {
+        max-width: 500px;
+        padding: 10px;
+        background-color: white;
+    }
+
+/* Full-width input fields */
+    .form-container input[type=text], .form-container input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+    }
+
+/* When the inputs get focus, do something */
+    .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+/* Set a style for the submit/login button */
+    .form-container .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:10px;
+        opacity: 0.8;
+    }
+
+/* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+
+/* Add some hover effects to buttons */
+    
+    table, th, td {
+        margin-top: 100px;
+        justify-items: center;
+        align-items: center;
+        border: 4px solid rgb(120, 120, 240);
+        border-radius: 30px;
+        width: 130vh;
+        border-style:outset;
+        padding: 15px;
+        
+    }
+    .logout-container{
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 33px;
+        right: 33px;
+        width: 280px;
+        text-align: center;
+        font-weight: bold;
+        
+    }
+    .form-container .btn:hover, .open-button:hover, .open-button1:hover, .logout-container:hover{
+        opacity: 1;
+    }
+    .ABC{
+        display: none;
+    }
+    /* The Close Button */  
+    .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    }
+    
+    </style>
+    <script>
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+        
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+</head>
+<body onload="closeMessage()">
+    <script>
+        function closeMessage(){
+            if ("{{ flash_message }}" == "True") {
+            window.alert("Roll No Already Exists");
+        }}
+    </script>
+    <div class="class_heading">
+        <p>Class X-A</p>
+    </div>
+    <div class="ABC" id="message-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                            {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+        {% endwith %}
+        <button onclick="">Done</button>
+    </div>
+    <div class="Content">
+        <form method="POST" action="">
+        <table>
+            <tr>
+                <th>ID</th><th>Name</th><th>Roll No</th><th>No of days Present</th>
+            </tr>
+            {% block content %}
+                {% for d in details %}
+                    <tr>
+                        <td>{{ d.id }}</td>
+                        <td>{{ d.name }}</td>
+                        <td>{{ d.roll }}</td>
+                        <td>{{ count[d.id] }}</td>
+                {% endfor %}
+            {% endblock %}
+        </table>
+    </form>
+    </div>
+    <div class="form-popup1" id="alertform">
+        <p>Hello</p>
+    </div>
+    <button class="open-button" onclick="openForm()">Add New Student</button>
+    <a href="/attendance"><button class="open-button1">Attendance Registry</button> </a>
+    <div class="form-popup" id="myForm">
+        <form action="/new_student" class="form-container" method="post">
+          <h1>Add Student</h1>
+      
+          <label for="name"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name " name="fname" required>
+      
+          <label for="roll"><b>Roll No</b></label>
+          <input type="text" placeholder="Enter Roll No" name="froll" required>
+      
+          <button type="submit" class="btn">Submit</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+    <div >
+        <a href="{{ url_for('home') }}"><button class="logout-container">Log Out</button></a>
+    </div>
+</body>
+</html>

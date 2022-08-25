@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ABC School</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+  <style>
+    .login-container {
+        background: #ffffff;
+        padding: 10px 20px;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        margin-top: 70px;
+        margin-left: 200px;
+        margin-right: 1000px;
+        font-weight: bolder;
+        color:rgb(76, 164, 223);
+    }
+    .header{
+        font-weight: bolder;
+        align-content: center;
+        font-size: 50px;
+        margin-left: 375px;
+        color:rgb(76, 164, 223);
+        margin-top: 30px;
+    }
+  </style>
+  <header class="header">ADMIN LOGIN</header>
+</head>
+<body>
+<main class="login-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+    {% endwith %}
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Log In</legend>
+            <div class="form-group">
+                {{ form.adminname.label(class="form-control-label") }}
+                {% if form.adminname.errors %}
+                    {{ form.adminname(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                            {% for error in form.adminname.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.adminname(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</main>
+</body>
+</html>
