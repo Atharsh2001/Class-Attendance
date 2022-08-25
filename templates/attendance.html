@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}"> -->
+    <title>Class Attendance</title>
+    <style>
+    body{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: 1;
+    }
+    .nav nav-tabs{
+        background-color: aqua;
+    }
+    .goback-container{
+        background-color:#555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 33px;
+        right: 33px;
+        width: 280px;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+        
+    }
+    .class_heading{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bolder;
+        align-content: center;
+        font-size: 3vw;
+        color:rgb(76, 164, 223);
+        margin-top: 30px;
+    }
+    table, th, td {
+        margin-top: 100px;
+        justify-items: center;
+        align-items: center;
+        border: 4px solid rgb(120, 120, 240);
+        border-radius: 30px;
+        width: 130vh;
+        border-style:outset;
+        padding: 15px;
+        
+    }
+    .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 33px;
+        right: 33px;
+        width: 280px;
+    }
+    #submit-atten{
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 130px;
+        right: 33px;
+        width: 280px;
+        font-weight: bold;
+    }
+    .alert{
+        animation-duration: 2s;
+    }
+
+/* The popup form - hidden by default */
+    .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+    }
+
+/* Add styles to the form container */
+    .form-container {
+        max-width: 500px;
+        padding: 10px;
+        background-color: white;
+    }
+
+/* Full-width input fields */
+    .form-container input[type=text], .form-container input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+    }
+
+/* When the inputs get focus, do something */
+    .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+/* Set a style for the submit/login button */
+    .form-container .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:10px;
+        opacity: 0.8;
+    }
+
+/* Add a red background color to the cancel button */
+    .form-container .cancel {
+        background-color: red;
+    }
+
+/* Add some hover effects to buttons */
+    .form-container .btn:hover, .open-button:hover, .goback-container:hover, #submit-atten:hover{
+        opacity: 1;
+    }
+  </style>
+  <script>
+    function Flashmessage(){
+        window.alert("Attendance registered")
+    }
+  </script>
+ 
+</head>
+<body>
+    <div class="class_heading">
+        <p>Class X-A</p>
+    </div>
+    <div class="Content">
+        <form method="POST" action="{{ url_for('student_attendance') }}">
+        <table>
+            <tr>
+                <th>ID</th><th>Name</th><th>Roll No</th><th>Present</th><th>Absent</th>
+            </tr>
+            {% block content %}
+                {% for d in details %}
+                    <tr>
+                        <td>{{ d.id }}</td>
+                        <td>{{ d.name }}</td>
+                        <td>{{ d.roll }}</td>
+                        <td><input type="checkbox" name="{{d.id}}" value="Present"></td>
+                        <td><input type="checkbox" name="{{ d.id }}" value="Absent"></td>
+                        <button id="submit-atten" class="btn" type="submit" onclick="Flashmessage()">Submit Attendance</button>
+                {% endfor %}
+            {% endblock %}
+        </table>
+        </form>
+        
+    </div>
+    <div >
+        <a href="{{ url_for('info') }}"><button class="goback-container">Go Back</button></a>
+    </div>
+</body>
+</html>
